@@ -1,0 +1,69 @@
+
+{% extends 'predictor/base.html' %}
+
+{% block title %}Home | AI Career Path Predictor{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h1>Welcome to AI Career Path Predictor</h1>
+  <p>Discover your ideal tech career with our comprehensive AI-powered tools designed specifically for students and career changers.</p>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+    <div style="padding: 1.5rem; background: rgba(255,255,255,0.06); border-radius: 10px;">
+      <h3>🎯 Skill Assessment Test</h3>
+      <p>Rate your skills in coding, math, creativity, and communication to get personalized career recommendations.</p>
+      <a class="button" href="{% url 'test' %}">Start Assessment</a>
+    </div>
+
+    <div style="padding: 1.5rem; background: rgba(255,255,255,0.06); border-radius: 10px;">
+      <h3>🧠 Personality & Interest Test</h3>
+      <p>Discover careers that match your personality, work style, and interests through our comprehensive assessment.</p>
+      <a class="button" href="{% url 'personality_test' %}">Take Personality Test</a>
+    </div>
+
+    <div style="padding: 1.5rem; background: rgba(255,255,255,0.06); border-radius: 10px;">
+      <h3>📊 Career Comparison</h3>
+      <p>Compare careers by demand, salary, growth potential, and difficulty to make informed decisions.</p>
+      <a class="button" href="{% url 'career_comparison' %}">Compare Careers</a>
+    </div>
+
+    <div style="padding: 1.5rem; background: rgba(255,255,255,0.06); border-radius: 10px;">
+      <h3>🤖 AI Career Chatbot</h3>
+      <p>Get instant answers to career questions, salary info, skill requirements, and personalized advice.</p>
+      <a class="button" href="{% url 'career_chatbot' %}">Chat with AI</a>
+    </div>
+
+    {% if user.is_authenticated %}
+    <div style="padding: 1.5rem; background: rgba(255,255,255,0.06); border-radius: 10px;">
+      <h3>📄 Resume Analyzer</h3>
+      <p>Upload your resume for AI-powered analysis with skill gaps, improvement suggestions, and scoring.</p>
+      <a class="button" href="{% url 'resume_analyzer' %}">Analyze Resume</a>
+    </div>
+
+    <div style="padding: 1.5rem; background: rgba(255,255,255,0.06); border-radius: 10px;">
+      <h3>📈 Dashboard & History</h3>
+      <p>Track your career assessment history, export data, and monitor your progress over time.</p>
+      <a class="button" href="{% url 'dashboard' %}">View Dashboard</a>
+    </div>
+    {% else %}
+    <div style="padding: 1.5rem; background: rgba(255,255,255,0.06); border-radius: 10px;">
+      <h3>🔐 Create Account</h3>
+      <p>Sign up to access all features, save your results, and track your career development journey.</p>
+      <a class="button" href="{% url 'signup' %}">Sign Up</a>
+    </div>
+    {% endif %}
+  </div>
+
+  <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.06); border-radius: 10px;">
+    <h3>✨ What You'll Get</h3>
+    <ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
+      <li><strong>Skill Gap Analysis:</strong> See exactly what skills you need to develop</li>
+      <li><strong>AI Learning Roadmap:</strong> Year-by-year learning plans tailored to your career</li>
+      <li><strong>Career Demand Insights:</strong> Real market data on salaries and job growth</li>
+      <li><strong>Course Recommendations:</strong> Curated learning paths from top platforms</li>
+      <li><strong>Portfolio Project Ideas:</strong> Specific projects to build for your target career</li>
+      <li><strong>Internship Suggestions:</strong> Relevant opportunities to gain experience</li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

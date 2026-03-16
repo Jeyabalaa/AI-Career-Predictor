@@ -1,0 +1,34 @@
+
+{% extends 'predictor/base.html' %}
+
+{% block title %}Skill Assessment | AI Career Path Predictor{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h1>Skill Assessment</h1>
+  <p>Rate yourself from 1 (low) to 10 (high) and tell us a bit about your interests and academic standing.</p>
+  <form method="post" novalidate>
+    {% csrf_token %}
+
+    <label for="id_coding">Coding Skill (1-10)</label>
+    <input type="number" name="coding" id="id_coding" min="1" max="10" required />
+
+    <label for="id_math">Math Skill (1-10)</label>
+    <input type="number" name="math" id="id_math" min="1" max="10" required />
+
+    <label for="id_creativity">Creativity (1-10)</label>
+    <input type="number" name="creativity" id="id_creativity" min="1" max="10" required />
+
+    <label for="id_communication">Communication (1-10)</label>
+    <input type="number" name="communication" id="id_communication" min="1" max="10" required />
+
+    <label for="id_academic">Academic performance (e.g., GPA, grades)</label>
+    <input type="text" name="academic" id="id_academic" placeholder="e.g. 3.8 / A-" />
+
+    <label for="id_interests">Your top interests or goals</label>
+    <textarea name="interests" id="id_interests" rows="3" placeholder="e.g. web apps, data analysis, design"></textarea>
+
+    <button type="submit">Predict Career</button>
+  </form>
+</div>
+{% endblock %}

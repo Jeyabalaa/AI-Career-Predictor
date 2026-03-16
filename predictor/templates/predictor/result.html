@@ -1,0 +1,103 @@
+
+{% extends 'predictor/base.html' %}
+
+{% block title %}Prediction Result | AI Career Path Predictor{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h1>Career Prediction Result</h1>
+
+  {% if career %}
+    <h2>Recommended Career:</h2>
+    <h3>{{ career }}</h3>
+
+    {% if inputs %}
+      <section style="margin-top: 1.5rem;">
+        <h2>Your Inputs</h2>
+        <p>Skills: Coding {{ inputs.coding }}, Math {{ inputs.math }}, Creativity {{ inputs.creativity }}, Communication {{ inputs.communication }}</p>
+        {% if inputs.academic %}
+          <p>Academic: {{ inputs.academic }}</p>
+        {% endif %}
+        {% if inputs.interests %}
+          <p>Interests: {{ inputs.interests }}</p>
+        {% endif %}
+      </section>
+    {% endif %}
+
+    {% if requirements %}
+      <section style="margin-top: 1.5rem;">
+        <h2>Skill Gap Analysis</h2>
+        <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+          <div style="flex: 1 1 250px;">
+            <h3>Your Skills</h3>
+            <ul>
+              <li>Coding: {{ inputs.coding }}</li>
+              <li>Math: {{ inputs.math }}</li>
+              <li>Creativity: {{ inputs.creativity }}</li>
+              <li>Communication: {{ inputs.communication }}</li>
+            </ul>
+          </div>
+          <div style="flex: 1 1 250px;">
+            <h3>Required Skills</h3>
+            <ul>
+              <li>Coding: {{ requirements.coding }}</li>
+              <li>Math: {{ requirements.math }}</li>
+              <li>Creativity: {{ requirements.creativity }}</li>
+              <li>Communication: {{ requirements.communication }}</li>
+            </ul>
+          </div>
+        </div>
+
+        {% if skill_gap %}
+          <div style="margin-top: 1rem;">
+            <h3>Skill Gap</h3>
+            <ul>
+              {% for gap in skill_gap %}
+                <li>{{ gap }}</li>
+              {% endfor %}
+            </ul>
+            <p><strong>Benefit:</strong> Focus on improving the areas above to match the career expectations.</p>
+          </div>
+        {% else %}
+          <p style="margin-top: 1rem;">Great job — your skills meet or exceed the expected levels for this career!</p>
+        {% endif %}
+      </section>
+    {% endif %}
+
+    {% if demand %}
+      <section style="margin-top: 1.5rem;">
+        <h2>Career Demand Snapshot</h2>
+        <p><strong>Demand:</strong> {{ demand.demand }}</p>
+        <p><strong>Expected growth:</strong> {{ demand.growth }}</p>
+        <p><strong>Average salary:</strong> {{ demand.salary }}</p>
+      </section>
+    {% endif %}
+
+    {% if learning_path %}
+      <section style="margin-top: 1.5rem;">
+        <h2>AI Learning Roadmap (Year-by-year)</h2>
+        {% for year, steps in learning_path.items %}
+          <div style="margin-top: 0.75rem;">
+            <h3>{{ year }}</h3>
+            <ul>
+              {% for step in steps %}
+                <li>{{ step }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endfor %}
+      </section>
+    {% endif %}
+
+    {% if career_slug %}
+      <a class="button" href="{% url 'career_resources' career_slug=career_slug %}">More resources</a>
+    {% endif %}
+
+    <a class="button" href="{% url 'dashboard' %}">View History</a>
+    <a class="button" href="{% url 'test' %}">Try Again</a>
+  {% else %}
+    <p>There was an issue generating a prediction.</p>
+    <a class="button" href="{% url 'test' %}">Return to Skill Test</a>
+  {% endif %}
+</div>
+{% endblock %}

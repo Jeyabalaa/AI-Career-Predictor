@@ -1,0 +1,33 @@
+{% extends 'predictor/base.html' %}
+
+{% block title %}Career Chatbot | AI Career Path Predictor{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h1>Career Chatbot</h1>
+  <p>Ask questions and get advice about careers, skills, and next steps.</p>
+
+  <div style="margin-top: 1.25rem;">
+    <form method="post">
+      {% csrf_token %}
+      <label for="id_message">Your question</label>
+      <input id="id_message" name="message" required placeholder="Can I become a data scientist without coding?" />
+      <button type="submit">Ask</button>
+    </form>
+  </div>
+
+  {% if history %}
+    <div style="margin-top: 1.5rem;">
+      <h2>Conversation</h2>
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        {% for entry in history %}
+          <div style="background: rgba(255,255,255,0.06); padding: 0.9rem; border-radius: 10px;">
+            <strong>You:</strong> {{ entry.user }}<br />
+            <strong>Bot:</strong> {{ entry.bot }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'predictor/base.html' %}
+
+{% block title %}{% if career %}{{ career.name }} Resources{% else %}Career Resources{% endif %} | AI Career Path Predictor{% endblock %}
+
+{% block content %}
+<div class="card">
+  {% if career %}
+    <h1>{{ career.name }} Resources</h1>
+    <p>{{ career.description }}</p>
+
+    {% if career.roadmap %}
+      <section style="margin-top: 1.5rem;">
+        <h2>Suggested Learning Roadmap</h2>
+        <ul>
+          {% for step in career.roadmap %}
+            <li>{{ step }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endif %}
+
+    {% if career.courses %}
+      <section style="margin-top: 1.5rem;">
+        <h2>Recommended Courses</h2>
+        <ul>
+          {% for course in career.courses %}
+            <li><a href="{{ course.url }}" target="_blank" rel="noopener">{{ course.label }}</a></li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endif %}
+
+    {% if career.projects %}
+      <section style="margin-top: 1.5rem;">
+        <h2>Portfolio Project Suggestions</h2>
+        <ul>
+          {% for project in career.projects %}
+            <li>{{ project }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endif %}
+
+    {% if career.internships %}
+      <section style="margin-top: 1.5rem;">
+        <h2>Internship Opportunities</h2>
+        <ul>
+          {% for internship in career.internships %}
+            <li>{{ internship }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endif %}
+  {% else %}
+    <h1>Career resources not found</h1>
+    <p>It looks like the career you requested isn't available yet. Here are the careers we currently support:</p>
+
+    {% if available_careers %}
+      <ul>
+        {% for career in available_careers %}
+          <li><a href="{% url 'career_resources' career_slug=career.slug %}">{{ career.name }}</a></li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endif %}
+
+  <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
+    <a class="button" href="{% url 'dashboard' %}">Back to Dashboard</a>
+    <a class="button" href="{% url 'test' %}">Run Skill Test</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'predictor/base.html' %}
+
+{% block title %}Dashboard | AI Career Path Predictor{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h1>Your Skill Test History</h1>
+  <p>Review your previous skill assessments and the career recommendations given by the AI model.</p>
+
+  {% if history %}
+    <div style="display:flex; gap:1rem; flex-wrap:wrap; align-items:center; margin-top: 1rem;">
+      <a class="button" href="{% url 'export_history' %}">Download CSV</a>
+      <a class="button" href="{% url 'career_resources' career_slug=history.0.predicted_career|slugify %}">Career Resources</a>
+      <span style="color: var(--muted); font-size: 0.9rem;">Showing {{ history|length }} records</span>
+    </div>
+    <table style="width:100%; border-collapse: collapse; margin-top: 1rem;">
+      <thead>
+        <tr>
+          <th style="text-align:left; padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.2);">When</th>
+          <th style="text-align:left; padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.2);">Career</th>
+          <th style="text-align:left; padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.2);">Skills</th>
+          <th style="text-align:left; padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.2);">Interests / Academics</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in history %}
+          <tr>
+            <td style="padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1);">{{ item.created_at|date:'M j, Y H:i' }}</td>
+            <td style="padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1);">{{ item.predicted_career }}</td>
+            <td style="padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1);">Coding: {{ item.coding }}, Math: {{ item.math }}, Creativity: {{ item.creativity }}, Communication: {{ item.communication }}</td>
+            <td style="padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1);">{{ item.interests|default:'—' }}<br />{{ item.academic_performance|default:'—' }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div style="margin-top: 1.5rem;">
+      <a class="button" href="{% url 'test' %}">Take a new test</a>
+    </div>
+  {% else %}
+    <p>You haven’t taken a test yet. <a href="{% url 'test' %}" class="button">Start the skill assessment</a></p>
+  {% endif %}
+</div>
+{% endblock %}

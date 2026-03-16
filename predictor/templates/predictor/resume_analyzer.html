@@ -1,0 +1,91 @@
+{% extends 'predictor/base.html' %}
+
+{% block title %}Resume Analyzer | AI Career Path Predictor{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h1>Resume Analyzer</h1>
+  <p>Upload your resume (TXT / PDF / DOCX) and get quick feedback on skills and missing areas.</p>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="id_resume">Upload your resume</label>
+    <input type="file" name="resume" id="id_resume" accept=".txt,.pdf,.docx" required />
+    <button type="submit">Analyze</button>
+  </form>
+
+  {% if analysis %}
+    <div style="margin-top: 1.5rem;">
+      <h2>Resume Analysis Results</h2>
+
+      <div style="display: flex; gap: 2rem; margin-bottom: 1.5rem;">
+        <div style="flex: 1; text-align: center; padding: 1rem; background: rgba(255,255,255,0.06); border-radius: 10px;">
+          <h3 style="margin: 0; color: #4CAF50;">{{ analysis.score }}/100</h3>
+          <p style="margin: 0.5rem 0 0 0;">Overall Score</p>
+        </div>
+        <div style="flex: 1; text-align: center; padding: 1rem; background: rgba(255,255,255,0.06); border-radius: 10px;">
+          <h3 style="margin: 0; color: #2196F3;">{{ analysis.skill_score }}/100</h3>
+          <p style="margin: 0.5rem 0 0 0;">Skills Score</p>
+        </div>
+        <div style="flex: 1; text-align: center; padding: 1rem; background: rgba(255,255,255,0.06); border-radius: 10px;">
+          <h3 style="margin: 0; color: #FF9800;">{{ analysis.content_score }}/100</h3>
+          <p style="margin: 0.5rem 0 0 0;">Content Score</p>
+        </div>
+      </div>
+
+      {% if analysis.found_skills %}
+        <h3>Skills Found</h3>
+        {% for category, skills in analysis.found_skills.items %}
+          {% if skills %}
+            <div style="margin-bottom: 1rem;">
+              <strong>{{ category }}:</strong>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+                {% for skill in skills %}
+                  <span style="background: #4CAF50; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.9rem;">{{ skill }}</span>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      {% if analysis.missing_skills %}
+        <h3>Skills to Consider Adding</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+          {% for skill in analysis.missing_skills %}
+            <span style="background: #f44336; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.9rem;">{{ skill }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if analysis.strengths %}
+        <h3>Resume Strengths</h3>
+        <ul>
+          {% for strength in analysis.strengths %}
+            <li style="color: #4CAF50;">{{ strength }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <h3>Improvement Suggestions</h3>
+      <ul>
+        {% for suggestion in analysis.suggestions %}
+          <li>{{ suggestion }}</li>
+        {% endfor %}
+      </ul>
+
+      <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.06); border-radius: 10px;">
+        <p><strong>Resume Length:</strong> {{ analysis.word_count }} words
+          {% if analysis.word_count < 300 %}
+            <span style="color: #f44336;">(Consider adding more detail)</span>
+          {% elif analysis.word_count > 600 %}
+            <span style="color: #FF9800;">(Consider condensing)</span>
+          {% else %}
+            <span style="color: #4CAF50;">(Good length)</span>
+          {% endif %}
+        </p>
+      </div>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

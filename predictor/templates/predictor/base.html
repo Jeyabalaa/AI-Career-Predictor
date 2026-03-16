@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}AI Career Path Predictor{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'predictor/style.css' %}" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="brand">
+      <a href="{% url 'home' %}">AI Career Path Predictor</a>
+    </div>
+
+    <nav class="nav-links">
+      <a href="{% url 'home' %}">Home</a>
+      <a href="{% url 'test' %}">Skill Test</a>
+      <a href="{% url 'personality_test' %}">Personality Test</a>
+      <a href="{% url 'career_comparison' %}">Compare Careers</a>
+      <a href="{% url 'career_chatbot' %}">Chatbot</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'resume_analyzer' %}">Resume Analyzer</a>
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+        <span class="user">Hi, {{ user.username }}</span>
+        <a href="{% url 'logout' %}" class="btn secondary">Logout</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="btn primary">Login</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <main class="content">
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="message {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <p>Powered by Django + ML | Built for Students</p>
+  </footer>
+</body>
+</html>

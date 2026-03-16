@@ -1,0 +1,38 @@
+{% extends 'predictor/base.html' %}
+
+{% block title %}Career Comparison | AI Career Path Predictor{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h1>Career Comparison Dashboard</h1>
+  <p>Compare careers by demand, salary, difficulty, and more.</p>
+
+  <table style="width:100%; border-collapse: collapse; margin-top: 1rem;">
+    <thead>
+      <tr>
+        <th style="text-align:left; padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.2);">Career</th>
+        <th style="text-align:left; padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.2);">Demand</th>
+        <th style="text-align:left; padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.2);">Growth</th>
+        <th style="text-align:left; padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.2);">Salary</th>
+        <th style="text-align:left; padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.2);">Difficulty</th>
+        <th style="text-align:left; padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.2);">Resources</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in careers %}
+        <tr>
+          <td style="padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1);"><a href="{% url 'career_resources' career_slug=item.slug %}">{{ item.name }}</a></td>
+          <td style="padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1);">{{ item.demand }}</td>
+          <td style="padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1);">{{ item.growth }}</td>
+          <td style="padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1);">{{ item.salary }}</td>
+          <td style="padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1);">{{ item.difficulty }}</td>
+          <td style="padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <a class="button" href="{% url 'career_resources' career_slug=item.slug %}">View</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+{% endblock %}

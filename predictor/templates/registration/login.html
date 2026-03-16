@@ -1,0 +1,22 @@
+{% extends 'predictor/base.html' %}
+
+{% block title %}Login | AI Career Path Predictor{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h1>Student Login</h1>
+  <p>Use your student account to access the career predictor tool.</p>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <label for="id_username">Username</label>
+    <input type="text" name="username" id="id_username" required />
+
+    <label for="id_password">Password</label>
+    <input type="password" name="password" id="id_password" required />
+
+    <button type="submit">Login</button>
+  </form>
+  <p style="margin-top: 1rem; color: var(--muted);">No account? <a href="{% url 'signup' %}">Create one here</a> or use the Django admin.</p>
+  <a class="button" href="/admin/">Admin</a>
+</div>
+{% endblock %}
