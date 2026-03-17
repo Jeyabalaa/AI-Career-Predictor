@@ -1,1 +1,1 @@
-web: gunicorn AI-Career-Predictor.wsgi
+web: gunicorn AI_Career_Predictor.wsgi
